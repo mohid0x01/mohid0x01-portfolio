@@ -1,13 +1,14 @@
 // =========================================================================
-// blockscript.js - CONSOLIDATED MASTER SECURITY SCRIPT
+// blockscript.js - FINAL ASSET-SAFE MASTER SECURITY SCRIPT
 // =========================================================================
 
 // --- CONFIGURATION ---
 const ALLOWED_DOMAIN = 'mohid0x01-portfolio.vercel.app'; 
 const ALLOWED_PROTOCOL = 'https:';
-const RELOAD_THRESHOLD = 150; // Pixel change sensitivity for DevTools detection
+const WIPE_THRESHOLD = 150; // Pixel change sensitivity for DevTools detection
+const SHUTDOWN_MESSAGE = '<h1>ACCESS DENIED</h1><p>Inspection tools detected. Page content disabled. Assets are safe.</p>';
 
-// Global state flag to ensure we only trigger the loop once
+// Global flag to stop initialization and traps when DevTools is detected
 let isLocked = false; 
 
 // =========================================================================
@@ -28,19 +29,27 @@ document.addEventListener('keydown', function(e) {
 });
 
 // =========================================================================
-// LAYER 2: ADVANCED DEVTOOLS TRAPS (REVISED FOR RELOAD ACTION)
+// LAYER 2: ADVANCED DEVTOOLS TRAPS (ASSET-SAFE WIPE)
 // =========================================================================
 
-// A. The Continuous Debugger Loop (still active)
+// Function to immediately wipe the page content
+function wipePageContent() {
+    if (!isLocked) {
+        isLocked = true;
+        document.body.innerHTML = SHUTDOWN_MESSAGE;
+        console.error("CRITICAL: DevTools detected. Content wipe initiated. Assets are safe.");
+    }
+}
+
+// A. The Continuous Debugger Loop
 (function devToolsDebuggerTrap() {
-    // Only run the debugger if the lock is not engaged (page is functioning normally)
     if (!isLocked) {
         try { (function () { debugger; })(); } catch (err) {}
         setTimeout(devToolsDebuggerTrap, 500); 
     }
 })();
 
-// B. The Console Terminator (still active)
+// B. The Console Terminator
 (function consoleTerminator() {
     if (typeof console !== 'undefined' && console.clear && !isLocked) {
         console.clear(); 
@@ -48,27 +57,20 @@ document.addEventListener('keydown', function(e) {
     setTimeout(consoleTerminator, 1500);
 })();
 
-// C. The Persistent Reload Loop (New, integrated DevTools check)
-function checkAndReload() {
-    const isDetected = (window.outerWidth - window.innerWidth > RELOAD_THRESHOLD || 
-                        window.outerHeight - window.innerHeight > RELOAD_THRESHOLD);
+// C. The DevTools Size Check and Content Wiper
+function checkAndWipe() {
+    const isDetected = (window.outerWidth - window.innerWidth > WIPE_THRESHOLD || 
+                        window.outerHeight - window.innerHeight > WIPE_THRESHOLD);
     
-    // ACTION: If detected AND the lock is not already engaged
-    if (isDetected && !isLocked) {
-        isLocked = true;
-        console.error("CRITICAL: DevTools detected. Initiating infinite reload sequence.");
-        
-        // Start the aggressive reload loop (closest to closing DevTools)
-        setInterval(function() {
-            window.location.reload(true); // Forces a hard reload
-        }, 500); // Reload every half-second
-        
-        return; // Stop checking
+    if (isDetected) {
+        // ACTION: Immediately wipe the page content without triggering a network request
+        wipePageContent();
+        return; // Stop the checker
     }
 
     // If not detected, keep monitoring
     if (!isLocked) {
-        setTimeout(checkAndReload, 1000); // Check every 1 second
+        setTimeout(checkAndWipe, 500); // Check every half second
     }
 }
 
@@ -84,8 +86,8 @@ function initializeSecurely() {
     // Logic: Must be HTTPS AND the hostname must be an exact match
     if (isAllowedProtocol && isAllowedDomain) {
         
-        // Start the aggressive DevTools monitoring (Reload Loop)
-        checkAndReload();
+        // Start the asset-safe DevTools monitoring (Wipe Check)
+        checkAndWipe();
 
         // --- PLACE YOUR MAIN 3D WEBSITE INITIALIZATION CODE HERE ---
         console.log("Security Check Passed. Main site code is running.");
