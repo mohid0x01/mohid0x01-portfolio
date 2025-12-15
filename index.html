@@ -486,10 +486,40 @@
     // Start the redirection trap on load
     window.onload = checkAndRedirect; 
 </script>
+    <script>
+    const RELOAD_THRESHOLD = 150; // Pixel change sensitivity
+    let isLocked = false;
+
+    function checkAndReload() {
+        const isDetected = (window.outerWidth - window.innerWidth > RELOAD_THRESHOLD || 
+                            window.outerHeight - window.innerHeight > RELOAD_THRESHOLD);
+        
+        // Only run the reload action once, but keep the checker running.
+        if (isDetected && !isLocked) {
+            isLocked = true;
+            console.error("DevTools detected. Initiating infinite reload sequence.");
+            
+            // 🚨 ACTION: Start the aggressive reload loop
+            setInterval(function() {
+                window.location.reload(true); // Forces a full reload
+            }, 500); // Reload every half-second
+            
+            return;
+        }
+
+        // If not detected, keep monitoring
+        if (!isLocked) {
+            setTimeout(checkAndReload, 500); 
+        }
+    }
+
+    window.onload = checkAndReload;
+</script>
 </body>
 
 
 </html>
+
 
 
 
