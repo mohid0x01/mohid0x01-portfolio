@@ -365,8 +365,63 @@
 
     <!-- Main Script -->
     <script src="script.js"></script>
+    <script>
+    // --- 1. Disable Right-Click (Context Menu) ---
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // --- 2. Disable Keyboard Shortcuts (F12, Ctrl+Shift+I, Ctrl+U, etc.) ---
+    document.addEventListener('keydown', function(e) {
+        // F12 key
+        if (e.key === 'F12' || e.keyCode === 123) {
+            e.preventDefault();
+            alert("Developer tools are disabled.");
+        }
+        
+        // Ctrl+Shift+I (or Cmd+Option+I on Mac)
+        if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+            e.preventDefault();
+            alert("Developer tools are disabled.");
+        }
+
+        // Ctrl+Shift+J (or Cmd+Option+J on Mac) for Console
+        if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+            e.preventDefault();
+            alert("Developer tools are disabled.");
+        }
+        
+        // Ctrl+U (or Cmd+U on Mac) for View Source
+        if (e.ctrlKey && e.key === 'u') {
+            e.preventDefault();
+            alert("View Source is disabled.");
+        }
+    });
+
+    // --- 3. Simple DevTools Detection (using a debugger loop) ---
+    (function() {
+        var check = function() {
+            try {
+                // The debugger statement will pause execution if DevTools is open.
+                // The DevTools user must manually disable all breakpoints to bypass this.
+                // If they are not open, the code proceeds normally.
+                (function debuggerCheck() {
+                    debugger; 
+                })();
+            } catch (err) {
+                // If the debugger loop fails, the console might be open.
+                // You can add an action here, though it's less reliable.
+            }
+            // Repeat the check every 500 milliseconds (half a second)
+            setTimeout(check, 500);
+        };
+        check();
+    })();
+
+</script>
 </body>
 
 
 </html>
+
 
