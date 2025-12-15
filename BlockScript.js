@@ -131,6 +131,43 @@ function initializeSecurely() {
         console.error("Security violation: Code running outside of authorized domain.");
     }
 }
+// --- Server-Side Logic Pseudocode (e.g., Vercel Edge Function) ---
 
+function checkIncomingRequest(request) {
+    // 1. Access the User-Agent header from the incoming request object
+    const userAgent = request.headers.get('user-agent');
+    
+    // 2. Define the signature we are looking for
+    const DEFAULT_CURL_SIGNATURE = 'curl/';
+
+    // 3. Define other common scraper signatures for a more robust check
+    const COMMON_SCRAPER_SIGNATURES = [
+        'curl/',
+        'Wget/',
+        'python-requests',
+        'Go-http-client',
+        'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)' // Example of a known bot
+    ];
+
+    // 4. Perform the check
+    if (!userAgent) {
+        // Blocks requests with no User-Agent, which is highly suspicious
+        console.warn("BLOCKED: Missing User-Agent");
+        return true; 
+    }
+    
+    // Check if the User-Agent matches any known scraper signature
+    const isDefaultScraper = COMMON_SCRAPER_SIGNATURES.some(signature => 
+        userAgent.includes(signature)
+    );
+
+    if (isDefaultScraper) {
+        console.warn(`BLOCKED: Identified Scraper: ${userAgent}`);
+        return true; // Indicates the request should be blocked or redirected
+    }
+    
+    // If the check passes
+    return false; // Indicates the request is likely from a browser
+}
 // Initialize the whole security and application system
 window.onload = initializeSecurely;
