@@ -1,0 +1,590 @@
+:root {
+    --bg-color: #0a0a0a;
+    --text-color: #ededed;
+    --accent-color: #490065;
+    --cursor-size: 20px;
+    --cursor-x: 50%;
+    --cursor-y: 50%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    /* Background color should be on a layer BEHIND the canvas, or the canvas should be ON TOP of the background */
+    background-color: #0a0a0a;
+    color: var(--text-color);
+    font-family: 'Outfit', sans-serif;
+    cursor: none;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+body.loading {
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* Loader */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: all;
+}
+
+.loader-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 8vw;
+    color: white;
+    overflow: hidden;
+    display: flex;
+}
+
+.letter {
+    display: inline-block;
+    transform-origin: center;
+    opacity: 0;
+}
+
+/* Custom Cursor */
+#cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    border: 1px solid white;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+}
+
+#cursor-follower {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    filter: url('#goo');
+}
+
+#cursor.active {
+    background-color: white;
+    mix-blend-mode: difference;
+    border: none;
+    transform: translate(-50%, -50%) scale(2.5);
+}
+
+/* WebGL - Move to z-index 0 so it's above the body bg but behind content */
+#webgl {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    /* Allow clicks to pass through to content */
+    /* Removed opacity: 0.6 so the light effect is more visible */
+}
+
+/* Content Wrapper - Move to z-index 1 */
+main {
+    position: relative;
+    z-index: 1;
+}
+
+/* Typography */
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 10vw;
+    line-height: 0.9;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4vw;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #aeaeae;
+    margin-bottom: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Sections */
+section {
+    width: 100%;
+    min-height: 100vh;
+    padding: 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.section-header p {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/* Hero */
+.hero {
+    align-items: flex-start;
+}
+
+.hero .outline {
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5);
+    color: transparent;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Marquee */
+.marquee-section {
+    padding: 10rem 0;
+    overflow: hidden;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    min-height: 40vh;
+}
+
+.marquee-track {
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.marquee-content h1 {
+    display: inline-block;
+    font-size: 8vw;
+    padding-right: 2vw;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    opacity: 0.7;
+}
+
+/* Hidden Content / Flashlight */
+.hidden-content {
+    background-color: #000;
+    color: #333;
+    /* Dark text normally, revealed to be bright? Or just hidden */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hidden-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.hidden-wrapper h2 {
+    color: #fff;
+    opacity: 0.1;
+    /* Dim when not lit */
+}
+
+/* Overlay that hides things */
+.flashlight-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle 200px at var(--cursor-x) var(--cursor-y), transparent 0%, rgba(0, 0, 0, 0.98) 100%);
+    z-index: 2;
+    pointer-events: none;
+    /* Let clicks pass through */
+}
+
+/* The secret text is only fully visible when the hole is over it */
+.secret-text {
+    margin-top: 2rem;
+    color: var(--accent-color);
+}
+
+/* About Section */
+.about {
+    min-height: auto;
+    padding: 10vw 5vw;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-image {
+    width: 100%;
+    height: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter 0.5s;
+}
+
+.about-image:hover img {
+    filter: grayscale(0%);
+}
+
+/* Skills Section - FIXED VISIBILITY */
+.skills {
+    align-items: center;
+    padding: 10vw 0;
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.skill-bubble {
+    width: 120px;
+    height: 120px;
+    /* Much brighter border and visible background */
+    background: rgba(20, 20, 20, 0.8);
+    /* Dark but opaque enough to hide potential background noise, with a lighter border */
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    /* High contrast border */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+    /* Glow */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    animation: float 6s ease-in-out infinite;
+    z-index: 10;
+    /* Ensure on top */
+}
+
+.skill-bubble:nth-child(even) {
+    animation-duration: 7s;
+    animation-delay: 1s;
+}
+
+.skill-bubble:nth-child(3n) {
+    animation-duration: 5s;
+    animation-delay: 2s;
+}
+
+.skill-bubble span {
+    font-size: 1.1rem;
+    /* Slightly smaller to fit */
+    font-weight: 700;
+    /* Bold text */
+    letter-spacing: 1px;
+    color: #ffffff;
+    z-index: 2;
+    transition: transform 0.3s;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow to pop against any background */
+    pointer-events: none;
+    /* Let clicks pass to bubble */
+}
+
+.skill-bubble:hover {
+    width: 180px;
+    height: 180px;
+    border-radius: 20px;
+    /* Square with rounded corners */
+    background: rgba(255, 255, 255, 0.95);
+    /* Bright white on hover */
+    border-color: #ffffff;
+    transform: scale(1.1);
+    z-index: 20;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+}
+
+.skill-bubble:hover span {
+    color: #000000;
+    /* Invert text color on bright background */
+    transform: translateY(-25px);
+    text-shadow: none;
+}
+
+.skill-bubble::after {
+    content: attr(data-desc);
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333333;
+    /* Dark text for description */
+    padding: 0 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s 0.1s;
+}
+
+.skill-bubble:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Projects - Swiper Updated */
+.projects {
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+.swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+/* Swiper Slide as Anchor */
+.swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 480px;
+    /* Taller for stars */
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    /* Important for anchor */
+    text-decoration: none;
+    background-color: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    /* Fill slide */
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.swiper-slide:hover .card-image img {
+    transform: scale(1.1);
+}
+
+.card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+    transform: translateY(100%);
+    transition: transform 0.3s;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.swiper-slide:hover .card-content {
+    transform: translateY(0);
+}
+
+.card-content h3 {
+    font-size: 1.5rem;
+    color: white;
+    margin: 0;
+}
+
+.stars {
+    color: #ffd700;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.card-content p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 0;
+}
+
+/* Cursor Arrow State */
+#cursor.arrow {
+    background-color: transparent;
+    border: none;
+    mix-blend-mode: normal;
+}
+
+#cursor.arrow::after {
+    content: '->';
+    /* Hide dot */
+}
+
+#cursor-follower {
+    /* Base follower styles need transition for smooth morphing */
+    transition: width 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+        height 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+        background-color 0.4s ease,
+        border-radius 0.4s ease;
+}
+
+#cursor-follower.arrow {
+    width: 80px;
+    height: 80px;
+    background-color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    mix-blend-mode: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center;
+    /* JS handles translation, CSS handles size */
+}
+
+#cursor-follower.arrow::after {
+    content: 'Visit';
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    opacity: 0;
+    transform: scale(0) rotate(45deg);
+    animation: arrowPop 0.4s forwards 0.1s;
+}
+
+@keyframes arrowPop {
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* Contact */
+.contact {
+    background-color: #050505;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 4vw;
+    font-family: 'Playfair Display', serif;
+}
+
+.hover-link {
+    transition: padding-left 0.3s, color 0.3s;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.hover-link:hover {
+    padding-left: 20px;
+    color: var(--accent-color);
+}
+
+footer {
+    margin-top: auto;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    padding-top: 2rem;
+}
+
+/* Animations Helpers */
+.reveal-text {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-image {
+        height: 300px;
+    }
+
+    .loader-title {
+        font-size: 12vw;
+    }
+}
