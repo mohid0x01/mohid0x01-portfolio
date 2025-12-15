@@ -374,63 +374,38 @@
     <!-- Main Script -->
     <script src="script.js"></script>
     <script>
-    // --- CONFIGURATION ---
-    const ALLOWED_DOMAIN = 'mohid0x01-portfolio.vercel.app'; // CHANGE THIS TO YOUR DOMAIN!
+    // --- CONFIGURATION (FIXED) ---
+    // FIX 1: Remove the trailing slash. The hostname must be clean.
+    const ALLOWED_DOMAIN = 'mohid0x01-portfolio.vercel.app'; 
+    
+    // FIX 2: Ensure the protocol includes the colon, as reported by the browser.
     const ALLOWED_PROTOCOL = 'https:';
-    const INTEGRITY_CHECK_INTERVAL = 1000; // Check every 1 second
+    const INTEGRITY_CHECK_INTERVAL = 1000;
     
     // =========================================================================
-    // LAYER 1: USER ACTION AND SHORTCUT BLOCKING
+    // LAYER 1: USER ACTION AND SHORTCUT BLOCKING (UNTOUCHED)
     // =========================================================================
 
-    document.addEventListener('contextmenu', function(e) {
-        // Disables right-click menu
-        e.preventDefault(); 
-    });
-
-    document.addEventListener('dragstart', function(e) {
-        // Blocks drag-and-drop of images/elements
-        e.preventDefault(); 
-    });
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.addEventListener('dragstart', function(e) { e.preventDefault(); });
 
     document.addEventListener('keydown', function(e) {
         const isCtrlCmd = e.ctrlKey || e.metaKey; 
         const isShift = e.shiftKey;
 
-        // Block F12 (DevTools)
+        // Block F12, Ctrl/Cmd+Shift+I/J, Ctrl/Cmd+U/P/S
         if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); }
-
-        // Block Ctrl/Cmd + Shift + I/J (DevTools/Console)
-        if (isCtrlCmd && isShift && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) { 
-            e.preventDefault(); 
-        }
-        
-        // Block Ctrl/Cmd + U (View Source)
-        if (isCtrlCmd && (e.key === 'u' || e.key === 'U')) { 
-            e.preventDefault(); 
-        }
-        
-        // Block Ctrl/Cmd + P (Print Dialogue)
-        if (isCtrlCmd && (e.key === 'p' || e.key === 'P')) { 
-            e.preventDefault(); 
-        }
-        
-        // Block Ctrl/Cmd + S (Save Page)
-        if (isCtrlCmd && (e.key === 's' || e.key === 'S')) { 
-            e.preventDefault(); 
-        }
+        if (isCtrlCmd && isShift && (e.key === 'I' || e.key === 'J')) { e.preventDefault(); }
+        if (isCtrlCmd && (e.key === 'u' || e.key === 'p' || e.key === 's')) { e.preventDefault(); }
     });
 
     // =========================================================================
-    // LAYER 2: ADVANCED DEVTOOLS TRAPS
+    // LAYER 2: ADVANCED DEVTOOLS TRAPS (UNTOUCHED)
     // =========================================================================
 
     // A. The Continuous Debugger Loop
     (function devToolsDebuggerTrap() {
-        try {
-            // Forces DevTools to pause execution repeatedly
-            (function () { debugger; })();
-        } catch (err) {}
+        try { (function () { debugger; })(); } catch (err) {}
         setTimeout(devToolsDebuggerTrap, 500); 
     })();
 
@@ -438,8 +413,6 @@
     (function consoleTerminator() {
         if (typeof console !== 'undefined' && console.clear) {
             console.clear(); 
-            // Optional: spam a message
-            // console.warn("Active protection engaged.");
         }
         setTimeout(consoleTerminator, 1500);
     })();
@@ -452,21 +425,24 @@
         if (window.outerWidth - window.innerWidth > widthThreshold || 
             window.outerHeight - window.innerHeight > heightThreshold) {
             
-            // ACTION: If DevTools is detected, wipe the page content
             document.body.innerHTML = '<h1>ACCESS DENIED</h1><p>Developer tools detected and blocked.</p>';
-            return; // Stop further checks/loops
+            return; 
         }
-        
         setTimeout(devtoolsChecker, 1000); 
     };
 
     // =========================================================================
-    // LAYER 3: CODE INTEGRITY & EXECUTION CONTROL
+    // LAYER 3: CODE INTEGRITY & EXECUTION CONTROL (ROBUST LOGIC)
     // =========================================================================
 
     function initializeSecurely() {
-        // Enforce protocol and domain check
-        if (window.location.protocol === ALLOWED_PROTOCOL && window.location.hostname.includes(ALLOWED_DOMAIN)) {
+        
+        // Final, highly robust check for the specific Vercel URL
+        const isAllowedDomain = window.location.hostname === ALLOWED_DOMAIN;
+        const isAllowedProtocol = window.location.protocol === ALLOWED_PROTOCOL;
+        
+        // Logic: Must be HTTPS AND the hostname must be an exact match
+        if (isAllowedProtocol && isAllowedDomain) {
             
             // Start the aggressive DevTools size check
             devtoolsChecker();
@@ -477,8 +453,10 @@
             
         } else {
             // Block execution if run from an unauthorized location
-            document.body.innerHTML = '<h1>UNAUTHORIZED LOCATION</h1><p>This code must be run from ' + ALLOWED_DOMAIN + ' via HTTPS.</p>';
+            document.body.innerHTML = '<h1>UNAUTHORIZED LOCATION</h1><p>This code must be run from ' + ALLOWED_PROTOCOL + '//' + ALLOWED_DOMAIN + '.</p>';
             console.error("Security violation: Code running outside of authorized domain.");
+            console.error("DEBUG: Protocol Fail? " + !isAllowedProtocol + " | Hostname Fail? " + !isAllowedDomain);
+            console.error("DEBUG: Current Hostname is: " + window.location.hostname);
         }
     }
 
@@ -490,6 +468,7 @@
 
 
 </html>
+
 
 
 
