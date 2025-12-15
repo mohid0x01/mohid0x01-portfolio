@@ -22,7 +22,15 @@
 </head>
 
 <body>
-
+<style>
+    /* Disables all text selection, a common way to copy content */
+    body {
+        -webkit-user-select: none; /* Chrome, Safari, Opera */
+        -moz-user-select: none;    /* Firefox */
+        -ms-user-select: none;     /* IE/Edge */
+        user-select: none;         /* Standard */
+    }
+</style>
     <!-- Custom Cursor -->
     <div id="loader">
         <div class="loader-content">
@@ -366,62 +374,122 @@
     <!-- Main Script -->
     <script src="script.js"></script>
     <script>
-    // --- 1. Disable Right-Click (Context Menu) ---
+    // --- CONFIGURATION ---
+    const ALLOWED_DOMAIN = 'your-awesome-3d-site.com'; // CHANGE THIS TO YOUR DOMAIN!
+    const ALLOWED_PROTOCOL = 'https:';
+    const INTEGRITY_CHECK_INTERVAL = 1000; // Check every 1 second
+    
+    // =========================================================================
+    // LAYER 1: USER ACTION AND SHORTCUT BLOCKING
+    // =========================================================================
+
     document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
+        // Disables right-click menu
+        e.preventDefault(); 
     });
 
-    // --- 2. Disable Keyboard Shortcuts (F12, Ctrl+Shift+I, Ctrl+U, etc.) ---
+    document.addEventListener('dragstart', function(e) {
+        // Blocks drag-and-drop of images/elements
+        e.preventDefault(); 
+    });
+
     document.addEventListener('keydown', function(e) {
-        // F12 key
-        if (e.key === 'F12' || e.keyCode === 123) {
-            e.preventDefault();
-            alert("Developer tools are disabled.");
-        }
-        
-        // Ctrl+Shift+I (or Cmd+Option+I on Mac)
-        if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-            e.preventDefault();
-            alert("Developer tools are disabled.");
-        }
+        const isCtrlCmd = e.ctrlKey || e.metaKey; 
+        const isShift = e.shiftKey;
 
-        // Ctrl+Shift+J (or Cmd+Option+J on Mac) for Console
-        if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-            e.preventDefault();
-            alert("Developer tools are disabled.");
+        // Block F12 (DevTools)
+        if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); }
+
+        // Block Ctrl/Cmd + Shift + I/J (DevTools/Console)
+        if (isCtrlCmd && isShift && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) { 
+            e.preventDefault(); 
         }
         
-        // Ctrl+U (or Cmd+U on Mac) for View Source
-        if (e.ctrlKey && e.key === 'u') {
-            e.preventDefault();
-            alert("View Source is disabled.");
+        // Block Ctrl/Cmd + U (View Source)
+        if (isCtrlCmd && (e.key === 'u' || e.key === 'U')) { 
+            e.preventDefault(); 
+        }
+        
+        // Block Ctrl/Cmd + P (Print Dialogue)
+        if (isCtrlCmd && (e.key === 'p' || e.key === 'P')) { 
+            e.preventDefault(); 
+        }
+        
+        // Block Ctrl/Cmd + S (Save Page)
+        if (isCtrlCmd && (e.key === 's' || e.key === 'S')) { 
+            e.preventDefault(); 
         }
     });
 
-    // --- 3. Simple DevTools Detection (using a debugger loop) ---
-    (function() {
-        var check = function() {
-            try {
-                // The debugger statement will pause execution if DevTools is open.
-                // The DevTools user must manually disable all breakpoints to bypass this.
-                // If they are not open, the code proceeds normally.
-                (function debuggerCheck() {
-                    debugger; 
-                })();
-            } catch (err) {
-                // If the debugger loop fails, the console might be open.
-                // You can add an action here, though it's less reliable.
-            }
-            // Repeat the check every 500 milliseconds (half a second)
-            setTimeout(check, 500);
-        };
-        check();
+    // =========================================================================
+    // LAYER 2: ADVANCED DEVTOOLS TRAPS
+    // =========================================================================
+
+    // A. The Continuous Debugger Loop
+    (function devToolsDebuggerTrap() {
+        try {
+            // Forces DevTools to pause execution repeatedly
+            (function () { debugger; })();
+        } catch (err) {}
+        setTimeout(devToolsDebuggerTrap, 500); 
     })();
 
+    // B. The Console Terminator
+    (function consoleTerminator() {
+        if (typeof console !== 'undefined' && console.clear) {
+            console.clear(); 
+            // Optional: spam a message
+            // console.warn("Active protection engaged.");
+        }
+        setTimeout(consoleTerminator, 1500);
+    })();
+    
+    // C. The DevTools Size Check and Content Blocker
+    var devtoolsChecker = function() {
+        var widthThreshold = 150; 
+        var heightThreshold = 150;
+        
+        if (window.outerWidth - window.innerWidth > widthThreshold || 
+            window.outerHeight - window.innerHeight > heightThreshold) {
+            
+            // ACTION: If DevTools is detected, wipe the page content
+            document.body.innerHTML = '<h1>ACCESS DENIED</h1><p>Developer tools detected and blocked.</p>';
+            return; // Stop further checks/loops
+        }
+        
+        setTimeout(devtoolsChecker, 1000); 
+    };
+
+    // =========================================================================
+    // LAYER 3: CODE INTEGRITY & EXECUTION CONTROL
+    // =========================================================================
+
+    function initializeSecurely() {
+        // Enforce protocol and domain check
+        if (window.location.protocol === ALLOWED_PROTOCOL && window.location.hostname.includes(ALLOWED_DOMAIN)) {
+            
+            // Start the aggressive DevTools size check
+            devtoolsChecker();
+
+            // --- PLACE YOUR MAIN 3D WEBSITE INITIALIZATION CODE HERE ---
+            console.log("Security Check Passed. Main site code is running.");
+            // Example: startThreeJSRendering();
+            
+        } else {
+            // Block execution if run from an unauthorized location
+            document.body.innerHTML = '<h1>UNAUTHORIZED LOCATION</h1><p>This code must be run from ' + ALLOWED_DOMAIN + ' via HTTPS.</p>';
+            console.error("Security violation: Code running outside of authorized domain.");
+        }
+    }
+
+    // Initialize the whole security and application system
+    initializeSecurely();
+    
 </script>
 </body>
 
 
 </html>
+
 
 
