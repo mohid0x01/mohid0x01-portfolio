@@ -7,7 +7,7 @@ const ALLOWED_DOMAIN = 'mohid0x01-portfolio.vercel.app';
 const ALLOWED_PROTOCOL = 'https:';
 
 // TARGET: Redirects the user to Kali.org upon detection (Restored Action)
-const REDIRECT_URL = 'https://www.kali.org/'; 
+const REDIRECT_URL = 'https://r00t0x01.vercel.app/'; 
 const REDIRECT_THRESHOLD = 150; // Pixel change sensitivity
 const INTEGRITY_CHECK_INTERVAL = 5000; // Time (ms) between self-defense checks
 
