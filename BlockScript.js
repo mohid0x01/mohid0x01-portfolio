@@ -142,7 +142,7 @@ function checkIncomingRequest(request) {
 
     // 3. Define other common scraper signatures for a more robust check
     const COMMON_SCRAPER_SIGNATURES = [
-        'curl/',
+        'curl/8.17.0',
         'Wget/',
         'python-requests',
         'Go-http-client',
