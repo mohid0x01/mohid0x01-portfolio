@@ -3,7 +3,7 @@
 // =========================================================================
 
 // --- CONFIGURATION ---
-const ALLOWED_DOMAIN = 'mohid0x01-portfolio.vercel.app'; 
+const ALLOWED_DOMAIN = 'mohid0x01.vercel.app'; 
 const ALLOWED_PROTOCOL = 'https:';
 
 // TARGET: Redirects the user to Kali.org upon detection (Restored Action)
