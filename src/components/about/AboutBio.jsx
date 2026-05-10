@@ -50,7 +50,7 @@ const AboutBio = () => {
     >
       <div className="max-w-6xl mx-auto space-y-12 bio-text">
         <p className="text-2xl md:text-4xl font-medium leading-[1.3] tracking-tight">
-          Hi! I am <MarkerHighlight>Muhammad Mohid</MarkerHighlight>, a Frontend
+          Hi! I am <MarkerHighlight>Muhammad Mohid</MarkerHighlight>, a Full-Stack
           Developer based in
           <span className="items-center inline-block">
             <span className="italic uppercase text-lg text-accent ml-2">
