@@ -2,22 +2,18 @@ import React, { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import {
-  SiNextdotjs,
   SiReact,
   SiTailwindcss,
   SiJavascript,
-  SiCss,
-  SiHtml5,
-  SiLeetcode,
-  SiCodewars,
+  SiPython,
 } from "react-icons/si";
 import Badge from "./Badge";
 import pkFlag from "/images/pk-flag.png";
 import MarkerHighlight from "../MarkerHighlight";
 import { FaDownLong } from "react-icons/fa6";
 import { useSoundEffects } from "../../hooks/useSoundEffects";
-import { FcNeutralDecision } from "react-icons/fc";
-import { BiSolidNetworkChart } from "react-icons/bi";
+import { MdSecurity } from "react-icons/md";
+import { FiCode } from "react-icons/fi";
 import DocumentViewer from "../DocumentViewer";
 
 const AboutBio = () => {
@@ -50,12 +46,12 @@ const AboutBio = () => {
     >
       <div className="max-w-6xl mx-auto space-y-12 bio-text">
         <p className="text-2xl md:text-4xl font-medium leading-[1.3] tracking-tight">
-          Hi! I am <MarkerHighlight>Muhammad Mohid</MarkerHighlight>, a Full-Stack
-          Developer based in
+          Hi! I am <MarkerHighlight>Muhammad Mohid</MarkerHighlight>, a
+          Cybersecurity Researcher & Full-Stack Developer based in
           <span className="items-center inline-block">
             <span className="italic uppercase text-lg text-accent ml-2">
               {" "}
-              Sukkur
+              Pakistan
             </span>
             <img
               src={pkFlag}
@@ -63,42 +59,43 @@ const AboutBio = () => {
               className="w-7 ml-2 inline-block"
             />
           </span>
-          . I don't just write code, I craft interfaces that feel{" "}
-          <Badge text="Obedient" /> and look <Badge text="Precision-made" />.
+          . I don't just write code, I break systems to make them{" "}
+          <Badge text="Stronger" /> and build interfaces that are{" "}
+          <Badge text="Precision-made" />.
         </p>
 
         <p className="text-xl md:text-2xl opacity-80 leading-relaxed">
-          My web development journey started in 2022 after my{" "}
-          <MarkerHighlight>Bachelors in Software Engineering</MarkerHighlight>.
-          Having a strong programming background, I quickly mastered{" "}
-          <Badge icon={SiHtml5} text="HTML" />
-          {", "}
-          <Badge icon={SiCss} text="CSS" /> and{" "}
-          <Badge icon={SiJavascript} text="JavaScript" />
-          .I honed my skills through logic-building on{" "}
-          <Badge icon={SiLeetcode} text="Leetcode" /> and{" "}
-          <Badge icon={SiCodewars} text="Codewars" />. My passion was ignited
-          during my FYP. To polish my skills, I did some internships and started
-          freelancing as side kick.
+          I hold multiple industry certifications including{" "}
+          <MarkerHighlight>C|EH</MarkerHighlight>,{" "}
+          <MarkerHighlight>OSCP</MarkerHighlight>,{" "}
+          <Badge icon={MdSecurity} text="eWPTX" />,{" "}
+          <Badge icon={MdSecurity} text="eJPT" />,{" "}
+          <Badge icon={MdSecurity} text="eCPPT" /> and{" "}
+          <Badge icon={MdSecurity} text="C|SSP" />. My expertise spans
+          offensive security, penetration testing, web application security, and
+          vulnerability research.
         </p>
         <p className="text-xl md:text-2xl opacity-80 leading-relaxed">
-          In 2025, I completed my{" "}
-          <MarkerHighlight>Bachelors in Computer Sceince</MarkerHighlight>. My
-          research was based on{" "}
-          <Badge icon={BiSolidNetworkChart} text="Computer Vision" /> where I
-          spent a lot of time exploring Vision Transformers (ViTs) and modern
-          Deep Learning architectures.
+          On the development side, I craft modern web applications using{" "}
+          <Badge icon={SiReact} text="ReactJS" />,{" "}
+          <Badge icon={SiJavascript} text="JavaScript" />, and{" "}
+          <Badge icon={SiTailwindcss} text="Tailwind CSS" />. I also build
+          offensive security tools in{" "}
+          <Badge icon={SiPython} text="Python" /> and{" "}
+          <Badge icon={FiCode} text="Go" />, creating reconnaissance frameworks
+          and automated exploitation pipelines.
         </p>
 
         <p className="text-xl md:text-2xl opacity-80 leading-relaxed">
-          Currently, I am Freelancer as a Web Development Intern
-          through the{" "}
-          <span className="italic uppercase text-lg text-accent">
-            CMIT program
-          </span>
-          , where I'm focused on building Dashboards, Animated Websites and
-          having laughs with the employees. When I am not at my desk, you can
-          find me taking on freelance projects or getting lost in a good book.
+          I lead <MarkerHighlight>@TeamCyberOps</MarkerHighlight> — an organization 
+          focused on building open-source cybersecurity tools like{" "}
+          <span className="italic text-accent">TeamCyberOps Suite</span>,{" "}
+          <span className="italic text-accent">NucleiFuzzer</span>,{" "}
+          <span className="italic text-accent">WebCrawl</span>,{" "}
+          <span className="italic text-accent">cvedb</span>,{" "}
+          <span className="italic text-accent">OriginMapper</span>,{" "}, and more. When
+          I'm not hunting bugs or breaking into systems, you can find me building
+          premium web experiences or contributing to the security community.
         </p>
         <div className="pt-5 flex flex-wrap items-center gap-6">
           <button
@@ -118,7 +115,7 @@ const AboutBio = () => {
           <div className="group relative">
             <a
               href={resumePath}
-              download="Ayeza_Bashir_Resume.pdf"
+              download="Muhammad_Mohid_Resume.pdf"
               className="relative flex items-center justify-center w-14 h-14 border border-accent/30 rounded-full transition-all duration-500 overflow-hidden shadow-lg active:scale-90"
               onMouseEnter={playHover}
               onClick={playClick}

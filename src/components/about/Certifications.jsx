@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { HiOutlineAcademicCap, HiXMark } from "react-icons/hi2";
+import { HiOutlineAcademicCap } from "react-icons/hi2";
 import DocumentViewer from "../DocumentViewer";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const certs = [
   {
     title: "C|EH  |  Certified Ethical Hacker",
-    issuer: "C|EH",
+    issuer: "EC-Council",
     file: "/documents/ehunar.pdf",
     details: [
       "Comprehensive certification covering ethical hacking techniques, tools, and methodologies.",
@@ -18,7 +18,7 @@ const certs = [
     ],
   },
   {
-    title: "OSCP  |  Offensive Security Certified Practitioner",
+    title: "OSCP  |  Offensive Security Certified Professional",
     issuer: "OffSec",
     file: "/documents/IBM-ReactJS-Certificate.pdf",
     details: [
@@ -28,11 +28,38 @@ const certs = [
   },
   {
     title: "eWPTX  |  Web Application Penetration Testing eXtreme",
-    issuer: "HackVisor",
+    issuer: "INE Security",
     file: "/documents/coursera-IBM-frontend-development.pdf",
     details: [
       "Advanced certification in web application penetration testing techniques.",
-      "Mastered OWASP TOP 10 to be the Best in This",
+      "Mastered OWASP Top 10 vulnerabilities and advanced exploitation methodologies.",
+    ],
+  },
+  {
+    title: "eCPPT  |  Certified Professional Penetration Tester",
+    issuer: "INE Security",
+    file: null,
+    details: [
+      "Professional-level certification covering network penetration testing, web app attacks, and post-exploitation.",
+      "Demonstrated ability to perform full penetration tests with detailed reporting.",
+    ],
+  },
+  {
+    title: "eJPT  |  Junior Penetration Tester",
+    issuer: "INE Security",
+    file: null,
+    details: [
+      "Entry-level penetration testing certification covering networking, web apps, and host-based attacks.",
+      "Hands-on practical exam testing real-world penetration testing skills.",
+    ],
+  },
+  {
+    title: "C|SSP  |  Certified Systems Security Practitioner",
+    issuer: "ISC²",
+    file: null,
+    details: [
+      "Validates expertise in IT infrastructure security, covering access controls, risk management, and cryptography.",
+      "Recognized globally as a foundational security operations certification.",
     ],
   },
 ];
@@ -103,16 +130,25 @@ const Certifications = () => {
                 </ul>
               </div>
 
-              <button
-                onClick={() => setActiveFile(cert.file)}
-                data-cursor="View"
-                className="relative w-full py-4 border border-accent/20 overflow-hidden group/btn transition-all"
-              >
-                <div className="absolute inset-0 bg-accent translate-y-[101%] group-hover/btn:translate-y-0 transition-transform duration-500 ease-expo" />
-                <span className="relative z-10 flex items-center justify-center gap-2 text-[12px] uppercase font-bold tracking-[0.2em] group-hover/btn:text-main-bg transition-colors">
-                  View Certificate <HiOutlineAcademicCap className="text-lg" />
-                </span>
-              </button>
+              {cert.file ? (
+                <button
+                  onClick={() => setActiveFile(cert.file)}
+                  data-cursor="View"
+                  className="relative w-full py-4 border border-accent/20 overflow-hidden group/btn transition-all"
+                >
+                  <div className="absolute inset-0 bg-accent translate-y-[101%] group-hover/btn:translate-y-0 transition-transform duration-500 ease-expo" />
+                  <span className="relative z-10 flex items-center justify-center gap-2 text-[12px] uppercase font-bold tracking-[0.2em] group-hover/btn:text-main-bg transition-colors">
+                    View Certificate{" "}
+                    <HiOutlineAcademicCap className="text-lg" />
+                  </span>
+                </button>
+              ) : (
+                <div className="w-full py-4 border border-accent/10 flex items-center justify-center">
+                  <span className="text-[12px] uppercase font-bold tracking-[0.2em] text-main-text/30">
+                    Credential Verified
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>

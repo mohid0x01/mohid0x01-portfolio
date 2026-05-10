@@ -7,38 +7,45 @@ import {
   SiTailwindcss,
   SiFramer,
   SiRedux,
-  SiReactquery,
   SiTypescript,
   SiJavascript,
   SiHtml5,
   SiNodedotjs,
-  SiMongodb,
-  SiFirebase,
   SiGit,
   SiVercel,
-  SiPostman,
-  SiReacthookform,
-  SiZod,
   SiCss,
-  SiStyledcomponents,
   SiSass,
   SiVite,
   SiReactrouter,
   SiPython,
-  SiTensorflow,
 } from "react-icons/si";
 import { useSoundEffects } from "../../hooks/useSoundEffects";
 import { BsBootstrap } from "react-icons/bs";
-import { BiSolidNetworkChart } from "react-icons/bi";
+import { MdSecurity } from "react-icons/md";
+import { FiTerminal, FiServer, FiShield, FiSearch } from "react-icons/fi";
 
 const stackData = [
   {
-    category: "Basics & Core",
+    category: "Offensive Security",
     tools: [
-      { name: "HTML5", icon: SiHtml5, color: "#E34F26" },
-      { name: "CSS3", icon: SiCss, color: "#1572B6" },
+      { name: "Burp Suite", icon: FiShield, color: "#FF6633" },
+      { name: "Nmap", icon: FiSearch, color: "#4682B4" },
+      { name: "Metasploit", icon: MdSecurity, color: "#2A6496" },
+      { name: "Nuclei", icon: null, text: "Nuclei", color: "#7B61FF" },
+      { name: "Wireshark", icon: FiSearch, color: "#1679A7" },
+      { name: "OWASP ZAP", icon: MdSecurity, color: "#00549E" },
+    ],
+  },
+  {
+    category: "Languages & Scripting",
+    tools: [
+      { name: "Python", icon: SiPython, color: "#3776AB" },
+      { name: "Go", icon: null, text: "Go", color: "#00ADD8" },
       { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
       { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+      { name: "Bash", icon: FiTerminal, color: "#4EAA25" },
+      { name: "HTML5", icon: SiHtml5, color: "#E34F26" },
+      { name: "CSS3", icon: SiCss, color: "#1572B6" },
     ],
   },
   {
@@ -57,18 +64,18 @@ const stackData = [
     tools: [
       { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
       { name: "Bootstrap", icon: BsBootstrap, color: "#0d6efd" },
-      { name: "Styled Components", icon: SiStyledcomponents, color: "#3498db" },
       { name: "Sass", icon: SiSass, color: "#CC6699" },
       { name: "Redux Toolkit", icon: SiRedux, color: "#764ABC" },
-      { name: "React Hook Form", icon: SiReacthookform, color: "#EC5990" },
     ],
   },
   {
-    category: "AI & Research",
+    category: "Infrastructure & Tools",
     tools: [
-      { name: "Python", icon: SiPython, color: "#3776AB" },
-      { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00" },
-      { name: "Computer Vision", icon: BiSolidNetworkChart, color: "#00AEEF" },
+      { name: "Linux", icon: FiTerminal, color: "#FCC624" },
+      { name: "Docker", icon: FiServer, color: "#2496ED" },
+      { name: "Git", icon: SiGit, color: "#F05032" },
+      { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
+      { name: "Vercel", icon: SiVercel, color: "#000000" },
     ],
   },
 ];

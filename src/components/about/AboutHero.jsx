@@ -83,7 +83,7 @@ const AboutHero = () => {
     >
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-30 select-none px-6">
         <h2 className="persona-bg-text text-accent text-5xl md:text-9xl font-black uppercase tracking-tighter leading-none text-center">
-          ReactJS Developer // Frontend Developer
+          Cybersecurity Researcher // Full-Stack Developer
         </h2>
       </div>
 
