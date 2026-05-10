@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Syncopate:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    --color-primary: #efefef;
+    --color-secondary: #000;
+    --color-contrast: #ff98a2;
+    --color-primary-transparent: rgba(239, 239, 239, 0);
+}
+
+.dark {
+    --color-primary: #000;
+    --color-secondary: #efefef;
+    --color-contrast: #ff98a2;
+    --color-primary-transparent: rgba(0, 0, 0, 0);
+}
+
+@theme {
+    --font-roboto: "Roboto", sans-serif;
+    --font-sync: "Syncopate", sans-serif;
+    --color-main-bg: var(--color-primary);
+    --color-main-text: var(--color-secondary);
+    --color-accent: var(--color-contrast);
+    --color-ghost: var(--color-primary-transparent);
+}
+
+@layer base {
+    body {
+        background-color: var(--color-main-bg);
+        color: var(--color-main-text);
+        font-family: var(--font-roboto);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    h1,
+    h2,
+    h3,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-sync);
+        font-weight: 700;
+        color: var(--color-main-text);
+    }
+
+    p {
+        font-family: var(--font-roboto);
+        color: var(--color-main-text);
+    }
+}
+
+@layer base {
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--color-main-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-accent);
+        border-radius: 10px;
+        border: 2px solid var(--color-main-bg);
+        transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: color-mix(in srgb, var(--color-accent), black 15%);
+    }
+
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-accent) var(--color-main-bg);
+    }
+
+    ::selection {
+        background-color: color-mix(in srgb, var(--color-accent), transparent 70%);
+        color: var(--color-main-text);
+        text-shadow: 0 0 8px color-mix(in srgb, var(--color-accent), transparent 50%);
+    }
+
+    ::-moz-selection {
+        background-color: color-mix(in srgb, var(--color-accent), transparent 70%);
+        color: var(--color-main-text);
+    }
+}
