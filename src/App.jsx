@@ -5,6 +5,7 @@ import RandomDots from "./components/RandomDots";
 import Projects from "./pages/Projects";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Tools from "./pages/Tools";
 import { SoundProvider } from "./hooks/useSoundEffects";
 import Footer from "./components/footer/Footer";
 import ScrollToTop from "./components/ScrollToTop";
@@ -29,6 +30,7 @@ const App = () => {
               <Route path="/about" element={<About />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/:slug" element={<ProjectDetails />} />
+              <Route path="/tools" element={<Tools />} />
             </Routes>
           </main>
           <Footer />

@@ -3,6 +3,7 @@ import ThemeToggle from "../ThemeToggle";
 import { Link, useLocation } from "react-router-dom";
 import { IoHome, IoInformationCircle } from "react-icons/io5";
 import { HiTerminal } from "react-icons/hi";
+import { FiShield } from "react-icons/fi";
 import NavItem from "./NavItem";
 import MuteToggle from "../MuteToggle";
 
@@ -11,7 +12,7 @@ const Header = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-130 backdrop-blur-md bg-main-bg/80 text-main-text border border-accent/30 rounded-2xl shadow-2xl z-50">
+    <header className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-160 backdrop-blur-md bg-main-bg/80 text-main-text border border-accent/30 rounded-2xl shadow-2xl z-50">
       <nav aria-label="Main Navigation">
         <ul className="flex items-center justify-around py-3 px-4">
           <NavItem
@@ -31,6 +32,12 @@ const Header = () => {
             icon={<HiTerminal size={22} />}
             label="Projects"
             active={isActive("/projects")}
+          />
+          <NavItem
+            to="/tools"
+            icon={<FiShield size={22} />}
+            label="Tools"
+            active={isActive("/tools")}
           />
           <li className="h-8 w-px bg-accent/20 mx-2" aria-hidden="true" />
           <li className="flex items-center justify-between gap-2">
