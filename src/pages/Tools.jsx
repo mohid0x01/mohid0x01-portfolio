@@ -31,7 +31,7 @@ const liveTools = [
     tagline: "One-Command Recon & Exploitation Toolkit",
     description:
       "Browser-based oneliner generator for bug bounty hunters. Generate ready-to-use one-liner commands for reconnaissance, subdomain discovery, content discovery, and exploitation workflows.",
-    live: "https://webrecox.vercel.app",
+    live: "https://webrecox.vercel.app/onliners",
     github: "https://github.com/mohidqx/webrecox",
     tech: ["TypeScript", "React", "Vite"],
     icon: FiTerminal,
