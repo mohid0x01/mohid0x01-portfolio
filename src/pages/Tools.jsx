@@ -69,7 +69,7 @@ const liveTools = [
     description:
       "A Capture the Flag platform built for cybersecurity training and competitions. Features Web exploitation, Cryptography, and Digital Forensics challenges with real-world scenarios, scoring system, and leaderboards.",
     live: "https://ctf-teamcyberops.vercel.app",
-    github: "https://github.com/mohidqx",
+    github: "https://github.com/mohid0x01/cyberops-ctf",
     tech: ["TypeScript", "React", "Vite", "Tailwind CSS"],
     icon: FiFlag,
     color: "#F59E0B",
