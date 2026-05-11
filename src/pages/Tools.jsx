@@ -35,7 +35,7 @@ const liveTools = [
     github: "https://github.com/mohidqx/webrecox",
     tech: ["TypeScript", "React", "Vite"],
     icon: FiTerminal,
-    color: "#4EAA25",
+    color: "#FF98A2",
     features: [
       "Recon Oneliners",
       "Exploitation Commands",
@@ -53,7 +53,7 @@ const liveTools = [
     github: "https://github.com/mohidqx/teamcyberops-landing-6eef82ad",
     tech: ["React 18", "TypeScript", "Three.js", "Tailwind CSS", "Supabase", "Framer Motion"],
     icon: FiGlobe,
-    color: "#61DAFB",
+    color: "#FF98A2",
     features: [
       "3D WebGL Background",
       "CMS Dashboard",
@@ -72,7 +72,7 @@ const liveTools = [
     github: "https://github.com/mohid0x01/cyberops-ctf",
     tech: ["TypeScript", "React", "Vite", "Tailwind CSS"],
     icon: FiFlag,
-    color: "#F59E0B",
+    color: "#FF98A2",
     features: [
       "Web Exploitation",
       "Cryptography",
